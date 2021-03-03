@@ -16,7 +16,6 @@ void print_matrix(int **mat,int Rows,int Columns){
 }
 
 int Coin_Collector(int **matrix,int Rows,int Columns){
-    int Coins=0;
     int** Dummy_matrix=new int*[Rows+1];
         for(int i=0;i<=Rows;i++)
             Dummy_matrix[i]=new int[Columns+1];
@@ -29,8 +28,16 @@ int Coin_Collector(int **matrix,int Rows,int Columns){
                 Dummy_matrix[i][j]=matrix[i-1][j-1];
         }
     }
+
+    for(int i=1;i<=Rows;i++){
+        for(int j=1;j<=Columns;j++){
+            //f(i,j)=max{f(i-1,j),f(i,j-1)}+c[i][j]
+           Dummy_matrix[i][j]+=getMax(Dummy_matrix[i-1][j],Dummy_matrix[i][j-1]);
+        }
+    }
+
     print_matrix(Dummy_matrix,Rows+1,Columns+1);
-    return Coins;
+    return Dummy_matrix[Rows][Columns];
 }
 
 
@@ -57,6 +64,9 @@ int main(){
 /*
 Test case:
 matrix:
+Rows = 5
+Columns = 6
+
 0 0 0 0 1 0
 0 1 0 1 0 0
 0 0 0 1 0 1
